@@ -7,7 +7,8 @@ class Tokenizer:
 
     def __init__(self, secret):
       self.tokens = []
-      self.secret = self._hex(secret)
+      self.secret = secret
+#      self.secret = self._hex(secret) # lets specify any string as secret but is not supported by JS code atm
 
     def generate(self, length = default_length):
       '''Generate and store random token'''

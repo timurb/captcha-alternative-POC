@@ -1,0 +1,31 @@
+<html>
+<head><script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+<body>
+<p>Secret: <span id="secret">12345</span></p>
+<p>Token obtained from server: <span id="token"></span></p>
+<p>Token processed by javascript: <span id="token_encoded"></span></p>
+<br><br>
+<a href="#" id="check_unencoded">Check unencoded token</a>
+<br><br>
+<a href="#" id="check_encoded">Check encoded token</a>
+</body>
+<script>
+$.ajax(
+  { url: "/generate", 
+    success:function(result) {
+      $("#token").text(result);
+      var short_secret=$("#secret").text();
+      for (var i = 0, secret = ''; i < 100; i++) secret += short_secret;
+      var encrypted="";
+      for ( var i = 0; i < result.length; i++ ) {
+        encrypted = encrypted + (parseInt(result.charAt(i),16) ^ parseInt(secret.charAt(i),16)).toString(16) ;
+      }
+
+      $("#token_encoded").text(encrypted);
+      $("#check_unencoded").attr('href',"/check/"+result+"/unencoded");
+      $("#check_encoded").attr('href',"/check/"+encrypted);
+    }
+  });
+</script>
+</html>

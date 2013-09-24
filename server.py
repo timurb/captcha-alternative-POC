@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from wsgiref.simple_server import make_server
 from pyramid.config import Configurator
 from pyramid.response import Response
@@ -28,6 +30,7 @@ if __name__ == '__main__':
     config.add_view(generate, route_name='generate')
     config.add_view(check, route_name='check')
     config.add_view(check, route_name='check_encoded')
+    config.add_static_view(name='/', path='static')
     app = config.make_wsgi_app()
     server = make_server('0.0.0.0', 8080, app)
     server.serve_forever()
