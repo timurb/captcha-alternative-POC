@@ -10,7 +10,11 @@ def generate(request):
 def check(request):
     '''API to check for token correctness'''
     try:
-      indx = tokenizer.check_encoded(request.matchdict["token"])
+      if "encoded" in request.matchdict and request.matchdict["encoded"] == "unencoded":
+        check_token = tokenizer.check
+      else:
+        check_token = tokenizer.check_encoded
+      indx = check_token(request.matchdict["token"])
       return Response("Token is found")
     except ValueError:
       return Response("Token is invalid")
@@ -20,8 +24,10 @@ if __name__ == '__main__':
     config = Configurator()
     config.add_route('generate', '/generate')
     config.add_route('check', '/check/{token}')
+    config.add_route('check_encoded', '/check/{token}/{encoded}')
     config.add_view(generate, route_name='generate')
     config.add_view(check, route_name='check')
+    config.add_view(check, route_name='check_encoded')
     app = config.make_wsgi_app()
     server = make_server('0.0.0.0', 8080, app)
     server.serve_forever()
