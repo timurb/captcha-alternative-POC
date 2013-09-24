@@ -4,18 +4,21 @@
 
 A quick proof-of-concept for captcha-like system involving Javascript use but no user interaction at all.
 
-It is intended from automatic spambots and simple reverse-engineering techniques.
+It is intended to protect from automatic spambots and simple reverse-engineering techniques.
 
 Its workflow is the following:
-1. Javascript requests token from API server.
-2. Javascript does some processing with the token (optional).
-3. Javascript sets some form field to the processed token which is then checked by server to be correct.
+ 1. Javascript requests token from API server.
+ 2. Javascript does some processing with the token (optional).
+ 3. Javascript sets some form field to the processed token which is then checked by server to be correct.
 
 The strength of the approach depends on complexity of step 2.
-If you write the second step to be complex and use obfuscation chances are that lazy attacker will not do 
-enough reverse-engineering to understand the algorithm and implement it later in his bot.
+It can be as simple as skipping the step and passing the obtained token unchanged to step 3 or as complex
+as involving some custom-made cryptographic techniques to generate processed token.
 
-It is natural expansion of [honeypot](http://haacked.com/archive/2007/09/11/honeypot-captcha.aspx) or
+If you write the second step to be complex and use obfuscation at the same time there are chances that
+lazy attacker will not do enough reverse-engineering to understand the algorithm and implement it later in his bot.
+
+The idea is a natural expansion of [honeypot](http://haacked.com/archive/2007/09/11/honeypot-captcha.aspx) or
 [checkbox](http://uxmovement.com/forms/captchas-vs-spambots-why-the-checkbox-captcha-wins/) captcha alternatives.
 
 
@@ -47,7 +50,7 @@ Python server exposes several locations:
 This is solely proof of concept and should not be used in production.
 
 I don't know Javascript/JQuery and have only a brief experience with Python so you probably should
-not use my code as a reference but only as a proof of concept.
+not use my code as a reference in coding style but only as a proof of concept.
 
 ## License and author
 
