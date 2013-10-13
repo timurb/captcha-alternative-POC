@@ -5,21 +5,24 @@ from pyramid.config import Configurator
 from pyramid.response import Response
 from tokenizer import Tokenizer
 
+
 def generate(request):
-    '''API to generate new token'''
+    """API to generate new token"""
     return Response(tokenizer.generate())
 
+
 def check(request):
-    '''API to check for token correctness'''
+    """API to check for token correctness"""
     try:
-      if "encoded" in request.matchdict and request.matchdict["encoded"] == "unencoded":
-        check_token = tokenizer.check
-      else:
-        check_token = tokenizer.check_encoded
-      indx = check_token(request.matchdict["token"])
-      return Response("Token is found")
+        if "encoded" in request.matchdict and request.matchdict["encoded"] == "unencoded":
+            check_token = tokenizer.check
+        else:
+            check_token = tokenizer.check_encoded
+        indx = check_token(request.matchdict["token"])
+        return Response("Token is found")
     except ValueError:
-      return Response("Token is invalid")
+        return Response("Token is invalid")
+
 
 if __name__ == '__main__':
     tokenizer = Tokenizer('12345')
